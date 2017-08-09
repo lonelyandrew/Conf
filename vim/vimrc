@@ -2,62 +2,63 @@
 
     syntax enable " Turn on the syntax highlight
     set nu " Show line numbers
-	set tabstop=4 "Count four spaces for a tab
-	set expandtab " Replace tabs with spaces
-	set shiftwidth=4 " Cols when use << and >> to indent and reindent
-	set autoindent
-	set cindent
+    set tabstop=4 "Count four spaces for a tab
+    set expandtab " Replace tabs with spaces
+    set shiftwidth=4 " Cols when use << and >> to indent and reindent
+    set autoindent
+    set cindent
     set cursorline " Highlight current line
     set cursorcolumn " Highlight current col
     hi CursorLine cterm=NONE ctermbg=black " Set cursor line bg color
     hi CursorColumn cterm=NONE ctermbg=black " Set cursor col bg color
+    set list lcs=tab:▸•,trail:•
 
 " }}}
 
 " Mappings {{{
 
-  let mapleader = "-" " Set the global leader.
-  inoremap jk <esc>  " Map jk in insert mode to esc.
-  nnoremap H ^
-  nnoremap L $
-  
-  " Open the vimrc file, and source it.
-  nnoremap <leader>ev :vsplit $MYVIMRC<cr>
-  nnoremap <leader>sv :source $MYVIMRC<cr>
+    let mapleader = "-" " Set the global leader
+    inoremap jk <esc>  " Map jk in insert mode to esc.
+    nnoremap H ^
+    nnoremap L $
 
-" }}} 
+    " Open the vimrc file, and source it.
+    nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+    nnoremap <leader>sv :source $MYVIMRC<cr>
+
+" }}}
 
 " Status line{{{
 
-  set laststatus=2      " Display the status line always
-  set statusline=%=     " Switch to the right side
-  set statusline+=%{strftime('%Y\ %a\ %b\ %d\ %H:%M:%S')}\  " Display the datetime 
-  set statusline+=[%F]  " Path to the file
-  set statusline+=\ -\  " Separator
-  set statusline+=%y    " Filetype of the file
-  set statusline+=\ -\  " Separator
-  set statusline+=row:[%l   " Current line
-  set statusline+=/ " Separator
-  set statusline+=%L]\    " Total lines
-  set statusline+=col:%c   " Current column number 
+    set laststatus=2      " Display the status line always
+    set statusline=%=     " Switch to the right side
+    set statusline+=%{strftime('%Y\ %a\ %b\ %d\ %H:%M:%S')}\  " Display the datetime
+    set statusline+=[%F]  " Path to the file
+    set statusline+=\ -\  " Separator
+    set statusline+=%y    " Filetype of the file
+    set statusline+=\ -\  " Separator
+    set statusline+=row:[%l   " Current line
+    set statusline+=/ " Separator
+    set statusline+=%L]\    " Total lines
+    set statusline+=col:%c   " Current column number
 
-  " Timer callback function to update status line
-  func! UpdateStatusLine(timer)
+    " Timer callback function to update status line
+    func! UpdateStatusLine(timer)
     redraws
-  endfunc
+    endfunc
 
-  " Update status line per sec
-  let statuslineTimer = timer_start(1000, 'UpdateStatusLine', {'repeat':-1}) 
+    " Update status line per sec
+    let statuslineTimer = timer_start(1000, 'UpdateStatusLine', {'repeat':-1})
 " }}}
 
 " Vimscript file folding settings {{{
-  augroup filetype_vim
+    augroup filetype_vim
       autocmd!
       autocmd FileType vim setlocal foldmethod=marker
-  augroup END
+    augroup END
 " }}}
 
 " Search {{{
-  set hlsearch " Highlight the search results
-  set incsearch " Increamental search
+    set hlsearch " Highlight the search results
+    set incsearch " Increamental search
 "}}}

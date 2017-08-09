@@ -12,7 +12,7 @@ function! s:GrepOperator(type)
         return
     endif
 
-    silent execute "grep! -R " . shellescape(@@) . " " . shellescape(@%) 
+    silent execute "grep! -R " . shellescape(@@) . " " . shellescape(@%)
     copen
     redraw!
 
