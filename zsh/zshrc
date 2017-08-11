@@ -1,0 +1,13 @@
+export ZSH=/home/andrewshi/.oh-my-zsh
+
+ZSH_THEME="andrew"
+
+plugins=(git,virtualenv)
+
+source $ZSH/oh-my-zsh.sh
+
+alias ll='ls -lGh'
+alias la='ls -alGh'
+
+export WORKON_HOME=~/Envs
+source /home/andrewshi/.pyenv/shims/virtualenvwrapper.sh
