@@ -3,22 +3,6 @@ Some configuration files.
 
 ## Vim-TODO
 
-+ Add Python support
-    + Ruler
-    + Python running cmd
-    + Moudle tree
-    + File finder
-    + Goto Def
-    + Isort
-    + etc
-    + Folding
-    + Linter
-    + Strong type
-+ Add comments support
-+ Markdown support
-+ Set FoldColumn
-+ Window position remap
-
 ### Python Editor Working Flow
 
 + Project set up

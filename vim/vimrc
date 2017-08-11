@@ -1,8 +1,61 @@
+" Vundle {{{
+
+    set nocompatible              " be iMproved, required
+    filetype off                  " required
+
+    " set the runtime path to include Vundle and initialize
+    set rtp+=~/.vim/bundle/Vundle.vim
+    call vundle#begin()
+    " alternatively, pass a path where Vundle should install plugins
+    "call vundle#begin('~/some/path/here')
+
+    " let Vundle manage Vundle, required
+    Plugin 'VundleVim/Vundle.vim'
+
+    Plugin 'airblade/vim-gitgutter'
+    Plugin 'majutsushi/tagbar'
+    Plugin 'wincent/command-t'
+    Plugin 'scrooloose/nerdtree'
+    Plugin 'tpope/vim-commentary'
+    Plugin 'nvie/vim-flake8'
+    Plugin 'davidhalter/jedi-vim'
+    " Plugin 'fisadev/vim-isort'
+    " Plugin 'w0rp/ale'
+
+    " All of your Plugins must be added before the following line
+    call vundle#end()            " required
+    filetype plugin indent on    " required
+
+    " To ignore plugin indent changes, instead use:
+    "filetype plugin on
+    "
+    " Brief help
+    " :PluginList       - lists configured plugins
+    " :PluginInstall    - installs plugins; append `!` to update or just :PluginUpdate
+    " :PluginSearch foo - searches for foo; append `!` to refresh local cache
+    " :PluginClean      - confirms removal of unused plugins; append `!` to auto-approve removal
+    "
+    " see :h vundle for more details or wiki for FAQ
+    " Put your non-Plugin stuff after this line
+
+" }}}
+
 " Display {{{
 
     set encoding=utf-8
-    syntax enable " Turn on the syntax highlight
+
+    if !exists("g:syntax_on")
+        syntax enable
+    endif
+
     set nu " Show line numbers
+
+    " if !has('gui_running')
+    "     let g:solarized_termtrans=1
+    " endif
+
+    " set background=dark
+    " colorscheme solarized
 
     " Indent settings
     set tabstop=4 "Count four spaces for a tab
@@ -17,6 +70,7 @@
 
     set cursorline " Highlight current line
     set cursorcolumn " Highlight current col
+    set colorcolumn=80 "Set ruler
     set fdc=1 " FoldColumn Width
 
     " Some color settings
@@ -25,6 +79,7 @@
     hi Folded cterm=NONE ctermbg=green ctermfg=black
     hi FoldColumn cterm=NONE ctermbg=green ctermfg=black
     hi CursorLineNR cterm=bold ctermbg=yellow ctermfg=black
+    hi ColorColumn ctermbg=black
     set list lcs=tab:▸•,trail:• " Set listchars
 
 " }}}
@@ -41,7 +96,7 @@
     nnoremap <leader>sv :source $MYVIMRC<cr>
 
     " Toggle relative line numbers.
-    nnoremap <leader>n :set rnu!<cr>
+    nnoremap <leader>N :set rnu!<cr>
 
     " Add command alias.
     command! W w
@@ -49,47 +104,122 @@
     " Use space to toggle foldings.
     nnoremap <space> zA
 
-    " Use ctrl-[hjkl] the active split!
-    nnoremap <silent> <c-k> :wincmd k<CR>
-    nnoremap <silent> <c-j> :wincmd j<CR>
-    nnoremap <silent> <c-h> :wincmd h<CR>
-    nnoremap <silent> <c-l> :wincmd l<CR>
+    " Use ctrl-[hjkl] the active split.
+    nnoremap <silent> <c-k> :wincmd k<cr>
+    nnoremap <silent> <c-j> :wincmd j<cr>
+    nnoremap <silent> <c-h> :wincmd h<cr>
+    nnoremap <silent> <c-l> :wincmd l<cr>
+
+    " Toggle the nerd tree.
+    nnoremap <leader>n :NERDTreeToggle<cr>
+
+    nnoremap <silent> <C-k> <Plug>(ale_previous_wrap)
+    nnoremap <silent> <C-j> <Plug>(ale_next_wrap)
 
 " }}}
 
-" Status line{{{
+" Status line {{{
+
+    " function! AleCount() abort
+    "     let l:counts = ale#statusline#Count(bufnr(''))
+    "     let l:all_errors = l:counts.error + l:counts.style_error
+    "     let l:all_non_errors = l:counts.total - l:all_errors
+    "     return {'error': l:all_errors, 'warning': l:all_non_errors}
+    " endfunction
 
     set laststatus=2      " Display the status line always
     set statusline=%=     " Switch to the right side
+    " set statusline+=[!\ %{(AleCount()['warning'])}]-
+    " set statusline+=[X\ %{(AleCount()['error'])}]-
     set statusline+=[%{strftime('%Y\ %a\ %b\ %d\ %H:%M:%S')}] " Date time
-    set statusline+=\ -\  " Separator
+    set statusline+=- " Separator
     set statusline+=[%F]  " Path to the file
-    set statusline+=\ -\  " Separator
+    set statusline+=- " Separator
     set statusline+=%y    " File type of the file
-    set statusline+=\ -\  " Separator
-    set statusline+=row:[%3l   " Current line
+    set statusline+=- " Separator
+    set statusline+=[%3l   " Current line
     set statusline+=/ " Separator
-    set statusline+=%-3L]\    " Total lines
-    set statusline+=col:[%2c]\   " Current column number
+    set statusline+=%-3L    " Total lines
+    set statusline+=,%2c]\   " Current column number
 
     " Timer callback function to update status line
-    func! UpdateStatusLine(timer)
-        redraws!
-    endfunc
+    " func! UpdateStatusLine(timer)
+    "     redraws!
+    " endfunc
 
     " Update status line per sec
-    let statuslineTimer = timer_start(1000, 'UpdateStatusLine', {'repeat':-1})
+    " let statuslineTimer = timer_start(1000, 'UpdateStatusLine', {'repeat':-1})
+
+    " set statusline=%{LinterStatus()}
+
 " }}}
 
-" Folding {{{
+" Vim file settings {{{
+
     augroup filetype_vim
       autocmd!
       autocmd FileType vim setlocal foldmethod=marker
-      autocmd FileType python setlocal foldmethod=indent
+      autocmd FileType vim setlocal fdc=1
     augroup END
+
+" }}}
+
+" Python file settings {{{
+
+    " augroup filetype_python
+    "   autocmd!
+    " augroup END
+
 " }}}
 
 " Search {{{
+
     set hlsearch " Highlight the search results
     set incsearch " Incremental search
+
 "}}}
+
+" Ctags {{{
+
+    let g:tagbar_type_markdown = {
+        \ 'ctagstype' : 'markdown',
+        \ 'kinds' : [
+            \ 'h:Heading_L1',
+            \ 'i:Heading_L2',
+            \ 'k:Heading_L3'
+        \ ]
+        \ }
+
+" }}}
+
+" Tagbar {{{
+
+    " Toggle the outline window.
+    nmap <F8> :TagbarToggle<cr>
+    " Display tag bar on the left side.
+    let g:tagbar_left = 1
+
+" }}}
+
+" Flake8 {{{
+
+    let g:flake8_show_in_gutter=1
+
+" }}}
+
+" ALE {{{
+"
+    " let g:ale_sign_error = '•'
+    " let g:ale_sign_warning = '•'
+    " hi ALEErrorSign cterm=bold ctermfg=red
+    " hi ALEWarningSign cterm=bold ctermfg=yellow
+    " let g:ale_set_quickfix = 1
+    " let g:ale_keep_list_window_open = 1
+
+"}}}
+
+" Jedi-Vim {{{
+
+    let g:jedi#goto_definitions_command = "<leader>d"
+
+" }}}
