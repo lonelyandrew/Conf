@@ -6,8 +6,6 @@
     " set the runtime path to include Vundle and initialize
     set rtp+=~/.vim/bundle/Vundle.vim
     call vundle#begin()
-    " alternatively, pass a path where Vundle should install plugins
-    "call vundle#begin('~/some/path/here')
 
     " let Vundle manage Vundle, required
     Plugin 'VundleVim/Vundle.vim'
@@ -19,10 +17,7 @@
     Plugin 'tpope/vim-commentary'
     Plugin 'nvie/vim-flake8'
     Plugin 'davidhalter/jedi-vim'
-    " Plugin 'fisadev/vim-isort'
-    " Plugin 'w0rp/ale'
 
-    " All of your Plugins must be added before the following line
     call vundle#end()            " required
     filetype plugin indent on    " required
 
@@ -50,28 +45,18 @@
 
     set nu " Show line numbers
 
-    " if !has('gui_running')
-    "     let g:solarized_termtrans=1
-    " endif
-
-    " set background=dark
-    " colorscheme solarized
-
     " Indent settings
     set tabstop=4 "Count four spaces for a tab
     set shiftwidth=4 " Cols when use << and >> to indent
-
-    "Control how many columns vim uses when you hit Tab in insert mode.
-    set softtabstop=4
-
     set expandtab " Replace tabs with spaces
     set autoindent
     set cindent
+    "Control how many columns vim uses when you hit Tab in insert mode.
+    set softtabstop=4
 
     set cursorline " Highlight current line
     set cursorcolumn " Highlight current col
     set colorcolumn=80 "Set ruler
-    set fdc=1 " FoldColumn Width
 
     " Some color settings
     hi CursorLine cterm=NONE ctermbg=black
@@ -100,6 +85,7 @@
 
     " Add command alias.
     command! W w
+    command! Q q
 
     " Use space to toggle foldings.
     nnoremap <space> zA
@@ -120,17 +106,8 @@
 
 " Status line {{{
 
-    " function! AleCount() abort
-    "     let l:counts = ale#statusline#Count(bufnr(''))
-    "     let l:all_errors = l:counts.error + l:counts.style_error
-    "     let l:all_non_errors = l:counts.total - l:all_errors
-    "     return {'error': l:all_errors, 'warning': l:all_non_errors}
-    " endfunction
-
     set laststatus=2      " Display the status line always
     set statusline=%=     " Switch to the right side
-    " set statusline+=[!\ %{(AleCount()['warning'])}]-
-    " set statusline+=[X\ %{(AleCount()['error'])}]-
     set statusline+=[%{strftime('%Y\ %a\ %b\ %d\ %H:%M:%S')}] " Date time
     set statusline+=- " Separator
     set statusline+=[%F]  " Path to the file
@@ -143,14 +120,12 @@
     set statusline+=,%2c]\   " Current column number
 
     " Timer callback function to update status line
-    " func! UpdateStatusLine(timer)
-    "     redraws!
-    " endfunc
+    func! UpdateStatusLine(timer)
+        redraws " update the status line of the current window
+    endfunc
 
     " Update status line per sec
-    " let statuslineTimer = timer_start(1000, 'UpdateStatusLine', {'repeat':-1})
-
-    " set statusline=%{LinterStatus()}
+    let statuslineTimer = timer_start(1000, 'UpdateStatusLine', {'repeat':-1})
 
 " }}}
 
@@ -158,17 +133,9 @@
 
     augroup filetype_vim
       autocmd!
-      autocmd FileType vim setlocal foldmethod=marker
-      autocmd FileType vim setlocal fdc=1
+      autocmd FileType vim setlocal foldmethod=marker " set vimrc fold method
+      autocmd FileType vim setlocal fdc=1 " set vimrc fold column
     augroup END
-
-" }}}
-
-" Python file settings {{{
-
-    " augroup filetype_python
-    "   autocmd!
-    " augroup END
 
 " }}}
 
@@ -198,28 +165,5 @@
     nmap <F8> :TagbarToggle<cr>
     " Display tag bar on the left side.
     let g:tagbar_left = 1
-
-" }}}
-
-" Flake8 {{{
-
-    let g:flake8_show_in_gutter=1
-
-" }}}
-
-" ALE {{{
-"
-    " let g:ale_sign_error = '•'
-    " let g:ale_sign_warning = '•'
-    " hi ALEErrorSign cterm=bold ctermfg=red
-    " hi ALEWarningSign cterm=bold ctermfg=yellow
-    " let g:ale_set_quickfix = 1
-    " let g:ale_keep_list_window_open = 1
-
-"}}}
-
-" Jedi-Vim {{{
-
-    let g:jedi#goto_definitions_command = "<leader>d"
 
 " }}}
