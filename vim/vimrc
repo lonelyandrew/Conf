@@ -51,7 +51,7 @@
     set expandtab " Replace tabs with spaces
     set autoindent
     set cindent
-    "Control how many columns vim uses when you hit Tab in insert mode.
+    "Control how many columns vim uses when you hit Tab in insert mode
     set softtabstop=4
 
     set cursorline " Highlight current line
@@ -66,6 +66,9 @@
     hi CursorLineNR cterm=bold ctermbg=yellow ctermfg=black
     hi ColorColumn ctermbg=black
     set list lcs=tab:▸•,trail:• " Set listchars
+
+    " No beeping
+    set vb t_vb=
 
 " }}}
 
@@ -99,8 +102,11 @@
     " Toggle the nerd tree.
     nnoremap <leader>n :NERDTreeToggle<cr>
 
-    nnoremap <silent> <C-k> <Plug>(ale_previous_wrap)
-    nnoremap <silent> <C-j> <Plug>(ale_next_wrap)
+    " Transverse Buffers
+    nnoremap <silent> [b :bp<cr>
+    nnoremap <silent> ]b :bn<cr>
+    nnoremap <silent> [B :bf<cr>
+    nnoremap <silent> ]B :bl<cr>
 
 " }}}
 
@@ -120,12 +126,12 @@
     set statusline+=,%2c]\   " Current column number
 
     " Timer callback function to update status line
-    func! UpdateStatusLine(timer)
-        redraws " update the status line of the current window
-    endfunc
+    " func! UpdateStatusLine(timer)
+    "     redraws " update the status line of the current window
+    " endfunc
 
     " Update status line per sec
-    let statuslineTimer = timer_start(1000, 'UpdateStatusLine', {'repeat':-1})
+    " let statuslineTimer = timer_start(1000, 'UpdateStatusLine', {'repeat':-1})
 
 " }}}
 
