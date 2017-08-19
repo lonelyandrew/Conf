@@ -53,6 +53,8 @@
     set cindent
     "Control how many columns vim uses when you hit Tab in insert mode
     set softtabstop=4
+    set backspace=indent,eol,start
+
 
     set cursorline " Highlight current line
     set cursorcolumn " Highlight current col
@@ -100,7 +102,7 @@
     nnoremap <silent> <c-l> :wincmd l<cr>
 
     " Toggle the nerd tree.
-    nnoremap <leader>n :NERDTreeToggle<cr>
+    nnoremap <F9> :NERDTreeToggle<cr>
 
     " Transverse Buffers
     nnoremap <silent> [b :bp<cr>
@@ -172,4 +174,8 @@
     " Display tag bar on the left side.
     let g:tagbar_left = 1
 
+" }}}
+
+" Jedi {{{
+    let g:jedi#show_call_signatures = "0"
 " }}}
