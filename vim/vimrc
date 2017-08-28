@@ -110,6 +110,9 @@
     nnoremap <silent> [B :bf<cr>
     nnoremap <silent> ]B :bl<cr>
 
+    " Map %% to %:h in command line mode auto-completion.
+    cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
+
 " }}}
 
 " Status line {{{
