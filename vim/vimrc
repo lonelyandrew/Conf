@@ -16,7 +16,11 @@
     Plugin 'scrooloose/nerdtree'
     Plugin 'tpope/vim-commentary'
     Plugin 'nvie/vim-flake8'
+    Plugin 'Valloric/YouCompleteMe'
     Plugin 'davidhalter/jedi-vim'
+    Plugin 'henrik/vim-indexed-search'
+    Plugin 'tpope/vim-surround'
+    Plugin 'Chiel92/vim-autoformat'
 
     call vundle#end()            " required
     filetype plugin indent on    " required
@@ -51,6 +55,7 @@
     set expandtab " Replace tabs with spaces
     set autoindent
     set cindent
+
     "Control how many columns vim uses when you hit Tab in insert mode
     set softtabstop=4
     set backspace=indent,eol,start
@@ -72,12 +77,16 @@
     " No beeping
     set vb t_vb=
 
+    " Split new window at the right side
+    set splitright
+
 " }}}
 
 " Mappings {{{
 
-    let mapleader = "-" " Set the global leader
+let mapleader = "-" " Set the global leader
     inoremap jk <Esc>
+    inoremap JK <Esc>
     nnoremap H ^
     nnoremap L $
 
@@ -110,12 +119,17 @@
     nnoremap <silent> [B :bf<cr>
     nnoremap <silent> ]B :bl<cr>
 
+    " Auto Formatter
+    noremap <F3> :Autoformat<cr>
+
 " }}}
 
 " Status line {{{
 
     set laststatus=2      " Display the status line always
     set statusline=%=     " Switch to the right side
+    set stl+=%f\ %(-[%{b:gitstatus}]%)
+    set statusline+=- " Separator
     set statusline+=[%{strftime('%Y\ %a\ %b\ %d\ %H:%M:%S')}] " Date time
     set statusline+=- " Separator
     set statusline+=[%F]  " Path to the file
@@ -142,7 +156,10 @@
     augroup filetype_vim
       autocmd!
       autocmd FileType vim setlocal foldmethod=marker " set vimrc fold method
+      autocmd FileType python setlocal foldmethod=indent " set vimrc fold method
       autocmd FileType vim setlocal fdc=1 " set vimrc fold column
+      autocmd FileType python setlocal fdc=1 " set vimrc fold column
+      autocmd FileType python setlocal foldnestmax=2 " set vimrc fold column
     augroup END
 
 " }}}
@@ -176,6 +193,36 @@
 
 " }}}
 
-" Jedi {{{
-    let g:jedi#show_call_signatures = "0"
+" YCM {{{
+    let g:ycm_python_binary_path = '/usr/bin/python3.6'
+" }}}
+
+" Templates {{{
+
+    if has("autocmd")
+        augroup templates
+            autocmd BufNewFile *.py 0r ~/.vim/templates/skeleton.py
+        augroup END
+    endif
+
+" }}}
+
+" Other {{{
+" Do not try connecting to the X server to get the current window title and
+" copy/paste using the X clipboard.
+set clipboard=exclude:.* 
+" }}}
+
+" Git {{{
+" returns a string <branch/XX> where XX corresponds to the git status
+" (for example "<master/ M>")
+function CurrentGitStatus()
+    let gitoutput = split(system('git status --porcelain -b '.shellescape(expand('%')).' 2>/dev/null'),'\n')
+    if len(gitoutput) > 0
+        let b:gitstatus = strpart(get(gitoutput,0,''),3) . '/' . strpart(get(gitoutput,1,'  '),0,2)
+    else
+        let b:gitstatus = ''
+    endif
+endfunc
+autocmd BufEnter,BufWritePost * call CurrentGitStatus()
 " }}}
