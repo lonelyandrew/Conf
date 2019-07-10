@@ -1,0 +1,9 @@
+export ZSH="/home/shixiufeng/.oh-my-zsh"
+autoload -Uz add-zsh-hook
+ZSH_THEME="andrew"
+plugins=(git virtualenv)
+export VIRTUAL_ENV_DISABLE_PROMPT=0
+source $ZSH/oh-my-zsh.sh
+
+alias ll='ls -lGh'
+alias la='ls -alGh'

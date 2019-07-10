@@ -12,12 +12,12 @@
 
     Plugin 'airblade/vim-gitgutter'
     Plugin 'majutsushi/tagbar'
-    Plugin 'wincent/command-t'
     Plugin 'tpope/vim-commentary'
     Plugin 'nvie/vim-flake8'
     Plugin 'tpope/vim-surround'
-    " Plugin 'davidhalter/jedi-vim'
-    Plugin 'Valloric/YouCompleteMe'
+    Plugin 'wincent/command-t'
+    Plugin 'davidhalter/jedi-vim'
+    Plugin 'ycm-core/YouCompleteMe'
 
     call vundle#end()            " required
     filetype plugin indent on    " required

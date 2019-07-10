@@ -8,6 +8,3 @@ source $ZSH/oh-my-zsh.sh
 
 alias ll='ls -lGh'
 alias la='ls -alGh'
-
-export WORKON_HOME=~/Envs
-source /home/andrewshi/.pyenv/shims/virtualenvwrapper.sh
