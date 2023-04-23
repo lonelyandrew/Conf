@@ -1,0 +1,13 @@
+inoremap jk <Esc>
+inoremap Jk <Esc>
+inoremap JK <Esc>
+inoremap jK <Esc>
+nnoremap H ^
+nnoremap L $
+set timeoutlen=1000
+let mapleader = "," " Set the global leader
+map <leader>r <Action>(ReformatCode)
+Plug 'easymotion/vim-easymotion'
+Plug 'tpope/vim-commentary'
+Plug 'machakann/vim-highlightedyank'
+set nu rnu
